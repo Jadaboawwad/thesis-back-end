@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: backend
+    build:
+      context: .
+    ports:
+    - 4000:4000
+    volumes:
+    - ./:/app
+    environment:
+      - DB_NAME=back_end_attendance
+      - DB_HOST=database
+      - DB_PASSWORD=docker
+      - DB_PORT=5432
+      - DB_USE_SSL=false
+      - DB_USER=docker
+      - PORT=4000
+    command: yarn dev
+
+  database:
+    container_name: database
+    image: postgres
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=back_end_attendance
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    ports:
+    - 2345:5432
+volumes:
+  database-data:
